@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Voting DApp</title>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+  <h1>Welcome to Voting DApp</h1>
+
+  <button onclick="connect()">🔗 Connect to MetaMask</button>
+  <hr>
+
+  <h3>Add Candidate (Admin only)</h3>
+  <input type="text" id="candidateName" placeholder="Candidate Name">
+  <button onclick="addCandidate()">Add Candidate</button>
+
+  <h3>Vote</h3>
+  <input type="number" id="candidateId" placeholder="Candidate ID (e.g., 0)">
+  <button onclick="vote()">Vote</button>
+
+  <h3>All Candidates</h3>
+  <pre id="output"></pre>
+</body>
+</html>
