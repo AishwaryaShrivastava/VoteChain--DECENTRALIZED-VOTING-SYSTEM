@@ -1,149 +1,111 @@
-# DECENTRALIZED-VOTING-SYSTEM
+# 🗳️ VoteChain – A Decentralized Voting DApp
 
-🧾 README: Connecting MetaMask with Ganache (Local Blockchain)
-This guide walks through setting up a local Ethereum blockchain using Ganache and connecting it to MetaMask using fake test ETH for development — with zero real money involved.
+VoteChain is a secure, transparent, and blockchain-powered voting system built with **Solidity**, **Streamlit**, **Web3.py**, **MetaMask**, and optionally using **Ganache for local development**. It empowers **Admins** to create and manage elections while **Voters** securely cast their votes on-chain.
 
+---
+
+## 🚀 Features
+
+- 🔐 Secure Admin & Voter Authentication (bcrypt-secured)
+- 🧑‍💼 Admin Dashboard – Create elections, add candidates, register voters
+- 👤 Voter Dashboard – Cast secure, encrypted votes
+- ⛓️ Smart Contract Integration (Remix, MetaMask, Ganache)
+- 📜 Audit Trail for voting actions (`audit_log.json`)
+- 📈 Real-Time Results Display
+- 🛡️ Blockchain-based, tamper-proof records
+
+---
+
+## 🧩 Tech Stack
+
+| Layer              | Technology             |
+|--------------------|------------------------|
+| 👨‍💻 Smart Contract | Solidity (Remix IDE)     |
+| 🧠 Backend         | Python, Streamlit       |
+| 🔗 Blockchain Comm.| Web3.py                 |
+| 🌐 Frontend        | HTML, CSS, Streamlit, JS|
+| 👛 Wallet          | MetaMask                |
+| 🔐 Auth System     | bcrypt + JSON DB        |
+
+---
+
+## 🏗️ Folder Structure
+
+```bash
+decentralized_voting_app/
+├── app/
+│   ├── app.py                   # Streamlit frontend
+│   ├── web3_config.py           # Web3 connection logic
+│   ├── contract_interaction.py  # Smart contract calls
+│   ├── users.json               # Admin/Voter data
+│   ├── audit_log.json           # Voting trail log
+│   ├── .env                     # Secrets file
+│   └── abi.json                 # Smart contract ABI
+├── contracts/
+│   └── Voting.sol               # Solidity contract
+├── frontend/
+│   ├── index.html               # MetaMask-integrated UI
+│   ├── app.js                   # Frontend contract interaction
+│   └── style.css                # Basic styling
+├── README.md
+├── LICENSE
+└── requirements.txt
+🔐 .env Configuration
+Create an .env file inside the app/ folder:
+
+
+ADMIN_ADDRESS=0xYourRemixDeployedAdminAddress
+ADMIN_PRIVATE_KEY=0xYourPrivateKeyFromRemix
+CONTRACT_ADDRESS=0xYourDeployedContractAddress
+🦊 Connecting MetaMask with Ganache (Local Blockchain)
 ✅ Prerequisites
-Ganache Desktop App (Free): Download Ganache
+Ganache – Local Ethereum chain
 
-MetaMask Extension (Free): Install MetaMask
+MetaMask – Browser extension wallet
 
-Browser (like Chrome or Firefox)
+Remix IDE – Online Solidity IDE
 
 🔧 Step-by-Step Setup
-1. Install and Run Ganache
-Launch the Ganache desktop app.
+1️⃣ Install and Run Ganache
+Launch Ganache → Click Quickstart
 
-Click Quickstart to create a default local blockchain.
+You get:
 
-This gives you:
+10 test accounts with 100 ETH each
 
-10 test accounts
+RPC Server: http://127.0.0.1:7545
 
-Each preloaded with 100 fake ETH
-
-Local RPC server at http://127.0.0.1:7545
-
-Chain ID: usually 5777 or 1337
-
-2. Set Up MetaMask
-Install the MetaMask extension in your browser.
-
-Create a new wallet (you will get a Secret Recovery Phrase — store it safely!).
-
-MetaMask defaults to Ethereum Mainnet — we’ll change that.
-
-3. Add Ganache Network to MetaMask
-In MetaMask:
-
-Click the network dropdown at the top → Select “Add network manually”
-
-Fill in:
-
-yaml
-Copy
-Edit
-Network Name: Ganache Local
-RPC URL:      http://127.0.0.1:7545
-Chain ID:     5777  (or 1337 based on Ganache)
-Currency:     ETH
-Click Save
-
-Now switch to the new Ganache Local network in MetaMask
-
-4. Import Ganache Test Account into MetaMask
-To access the fake ETH:
-
-In Ganache, click the key icon next to an account → Copy Private Key
-
-In MetaMask:
-
-Click your account icon (top-right)
-
-Choose Import Account
-
-Paste the private key
-
-Click Import
-
-You will now see:
-
-The Ganache account in MetaMask
-
-The corresponding test ETH balance
-
-✅ Done! 🎉
-You are now fully connected:
-
-MetaMask is linked to your local blockchain.
-
-You can deploy smart contracts, send fake ETH, and test your DApp with no real money involved.
-
-🛠 Next Steps
-Write and deploy your Voting Smart Contract using Remix IDE or Hardhat.
-
-Use MetaMask to sign transactions.
-
-Optionally connect your frontend (HTML/JS) using Web3.js or Ethers.js.
-
-
-# 🗳️ Decentralized Voting DApp (Local Blockchain Setup)
-
-This guide walks through setting up a **local Ethereum blockchain using Ganache** and connecting it to **MetaMask**. You’ll then deploy a smart contract using **Remix IDE** and run a frontend web app using **HTML/JS** without requiring `npm` or Truffle.
-
----
-
-## ✅ Prerequisites
-
-- **Ganache Desktop App** → [Download Ganache](https://trufflesuite.com/ganache/)
-- **MetaMask Extension** → [Install MetaMask](https://metamask.io/)
-- Browser (Chrome or Firefox)
-- **Remix IDE** → [Open Remix](https://remix.ethereum.org)
-
----
-
-## 🔧 Step-by-Step: Connecting MetaMask with Ganache
-
-### 1. Install and Run Ganache
-- Launch the Ganache desktop app
-- Click **Quickstart**
-- Ganache provides:
-  - 10 test accounts with 100 ETH each
-  - Local RPC Server: `http://127.0.0.1:7545`
-  - Chain ID: `1337` or `5777`
-
-### 2. Set Up MetaMask
-- Install the MetaMask browser extension
-- Create a new wallet
-- Save your **Secret Recovery Phrase** securely
-
-### 3. Add Ganache Network in MetaMask
-- Click the network dropdown → **Add network manually**
-- Fill in:
-Network Name: Ganache Local
-RPC URL: http://127.0.0.1:7545
 Chain ID: 1337 or 5777
-Currency Symbol: ETH
 
-- Click **Save** and switch to the Ganache network
+2️⃣ Add Ganache to MetaMask
+MetaMask → Add Network Manually:
 
-### 4. Import a Ganache Account into MetaMask
-- In Ganache: Click the 🔑 icon next to an account → **Copy Private Key**
-- In MetaMask:
-- Click your avatar → **Import Account**
-- Paste the private key → Click **Import**
+Field	Value
+Network Name	Ganache Local
+RPC URL	http://127.0.0.1:7545
+Chain ID	1337 or 5777
+Currency	ETH
 
-✅ Now MetaMask is linked to your local blockchain with fake test ETH.
+Click Save and switch to the Ganache Local network.
 
----
+3️⃣ Import a Ganache Account
+In Ganache → Click 🔑 icon → Copy Private Key
 
-## ⚙️ Deploy the Smart Contract (Without Truffle)
+In MetaMask:
 
-1. Open [Remix IDE](https://remix.ethereum.org)
-2. Create a file: `Voting.sol`
-3. Paste the following code:
+Click avatar → Import Account
 
-```solidity
+Paste private key → Click Import
+
+✅ Now MetaMask is connected to your local chain with fake test ETH!
+
+🧱 Smart Contract Deployment
+Open Remix IDE
+
+Create Voting.sol and paste:
+
+solidity
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -176,61 +138,82 @@ contract Voting {
       return candidates;
   }
 }
+Compile using Solidity v0.8.20
 
-Compile using Solidity 0.8.20
+Deploy using Injected Web3 (MetaMask)
 
-In Deploy tab:
+Copy the Contract Address and ABI
 
-Select Injected Provider - MetaMask
+🧑‍💻 Run the App
+For Streamlit Backend:
 
-Deploy the contract
+pip install -r requirements.txt
+streamlit run app/app.py
+For HTML/JS Frontend:
+Just open frontend/index.html in your browser and connect MetaMask.
 
-Copy the deployed Contract Address
+⚠️ Common Errors & Fixes
+Error Message	Fix
+from field must match key	MetaMask address ≠ Remix deployer
+Gas estimation failed	Invalid form data or unauthorized account
+not a valid hex	Check .env format (contract address)
+audit_log.json not found	Create an empty {} manually
 
-Expand the deployed contract → Copy the ABI (click {} icon)
-
-Project Structure
-
-voting-dapp/
-├── contracts/
-│   └── Voting.sol
-├── index.html
-├── app.js
-└── style.css
-
-✅ How to Run
-Open the folder in your system
-
-Open index.html in your browser (just double-click)
-
-Connect MetaMask to Ganache
-
-Use the DApp to add candidates, vote, and see results
-
-✨ Features
+✨ Features (JS Frontend)
 Admin can add candidates
 
-Voters can vote once
+Voters can vote once only
 
-Vote results are stored on-chain
+Vote counts stored on-chain
 
-No backend or Node.js required
+No Node.js, no backend needed
 
-🧠 Next Steps
-Add vote deadline feature
+📊 Future Enhancements
+Result visualization with pie/bar charts
 
-Add voter registration system
+Role-based election types (Govt, Edu, Corporate)
 
-Deploy on a public testnet (Goerli, Sepolia)
+OTP/email-based voter verification
 
-Add chart visualization for votes
+Deploy to Goerli/Sepolia/Testnets
 
-🔗 Resources
-Web3.js Docs
+Add voter anonymity via Zero-Knowledge Proofs
 
-Remix IDE
+🙌 Credits
+Built  by Aishwarya Shrivastava
 
-Ganache
 
-MetaMask
+📄 License
+This project is licensed under the MIT License. See LICENSE for full text.
+
+📸 Screenshots
+Screenshots will be added after successful deployment & voting demonstration.
+
+
+---
+
+### ✅ LICENSE File (MIT)
+
+
+MIT License
+
+Copyright (c) 2025 Aishwarya
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
