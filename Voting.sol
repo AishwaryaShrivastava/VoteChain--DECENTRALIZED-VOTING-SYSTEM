@@ -1,99 +1,85 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.0;
 
-contract VotingSystem {
+contract Voting {
     address public admin;
+    string public electionName;
+    bool public electionStarted;
+    bool public electionEnded;
 
     struct Candidate {
+        uint id;
         string name;
-        address candidateAddress;
+        uint voteCount;
     }
 
-    struct Vote {
-        uint256 voteId;
-        address voterAddress;
-        string candidateName;
-        bool isApproved;
+    struct Voter {
+        bool isRegistered;
+        bool hasVoted;
+        uint votedCandidateId;
     }
 
-    Candidate[] public candidates;
-    mapping(string => address) public candidateAddressMap;
-    mapping(uint256 => Vote) public votes;
-    uint256[] public approvedVoteIds;
+    mapping(uint => Candidate) public candidates;
+    mapping(address => Voter) public voters;
+    uint public candidatesCount;
+
+    event Voted(address indexed voter, uint candidateId);
+    event ElectionStarted(string electionName);
+    event ElectionEnded();
+
+    modifier onlyAdmin() {
+        require(msg.sender == admin, "Only admin can call this.");
+        _;
+    }
+
+    modifier electionOngoing() {
+        require(electionStarted && !electionEnded, "Election is not ongoing.");
+        _;
+    }
 
     constructor() {
         admin = msg.sender;
     }
 
-    modifier onlyAdmin() {
-        require(msg.sender == admin, "Only the admin can perform this action");
-        _;
+    function startElection(string memory _name) public onlyAdmin {
+        require(!electionStarted, "Election already started.");
+        electionName = _name;
+        electionStarted = true;
+        emit ElectionStarted(_name);
     }
 
-    modifier onlyVoter() {
-        require(msg.sender != admin, "Admin cannot vote");
-        _;
+    function endElection() public onlyAdmin {
+        require(electionStarted && !electionEnded, "Election not started or already ended.");
+        electionEnded = true;
+        emit ElectionEnded();
     }
 
-    function addCandidate(string memory _name, address _candidateAddress)
-        public
-        onlyAdmin
-    {
-        require(bytes(_name).length > 0, "Candidate name is required");
-        require(_candidateAddress != address(0), "Invalid address");
-
-        candidates.push(Candidate(_name, _candidateAddress));
-        candidateAddressMap[_name] = _candidateAddress;
+    function addCandidate(string memory _name) public onlyAdmin {
+        require(!electionStarted, "Cannot add candidates once election starts.");
+        candidatesCount++;
+        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
     }
 
-    function castVote(uint256 _voteId, string memory _candidateName, bool _isApproved)
-        public
-        onlyVoter
-    {
-        require(candidateAddressMap[_candidateName] != address(0), "Candidate does not exist");
-
-        votes[_voteId] = Vote(_voteId, msg.sender, _candidateName, _isApproved);
-
-        if (_isApproved) {
-            approvedVoteIds.push(_voteId);
-        }
+    function registerVoter(address _voter) public onlyAdmin {
+        require(!voters[_voter].isRegistered, "Voter already registered.");
+        voters[_voter].isRegistered = true;
     }
 
-    function getVote(uint256 _id)
-        public
-        view
-        returns (uint256, address, string memory, bool)
-    {
-        Vote memory v = votes[_id];
-        return (v.voteId, v.voterAddress, v.candidateName, v.isApproved);
+    function vote(uint _candidateId) public electionOngoing {
+        Voter storage sender = voters[msg.sender];
+        require(sender.isRegistered, "You must be a registered voter.");
+        require(!sender.hasVoted, "You have already voted.");
+        require(_candidateId > 0 && _candidateId <= candidatesCount, "Invalid candidate.");
+
+        sender.hasVoted = true;
+        sender.votedCandidateId = _candidateId;
+        candidates[_candidateId].voteCount++;
+
+        emit Voted(msg.sender, _candidateId);
     }
 
-    function getAllApprovedVoteIds() public view returns (uint256[] memory) {
-        return approvedVoteIds;
-    }
-
-    function getVoteCountForCandidate(string memory _candidateName)
-        public
-        view
-        returns (uint256 count)
-    {
-        require(candidateAddressMap[_candidateName] != address(0), "Candidate does not exist");
-
-        uint256 counter = 0;
-        for (uint256 i = 0; i < approvedVoteIds.length; i++) {
-            Vote memory v = votes[approvedVoteIds[i]];
-            if (
-                keccak256(bytes(v.candidateName)) == keccak256(bytes(_candidateName)) &&
-                v.isApproved
-            ) {
-                counter++;
-            }
-        }
-        return counter;
-    }
-
-    function getAllCandidates() public view returns (Candidate[] memory) {
-        return candidates;
+    function getCandidate(uint _id) public view returns (string memory, uint) {
+        Candidate memory c = candidates[_id];
+        return (c.name, c.voteCount);
     }
 }
-
