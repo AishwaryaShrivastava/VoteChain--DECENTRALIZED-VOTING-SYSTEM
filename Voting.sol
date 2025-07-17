@@ -42,14 +42,12 @@ contract Voting {
     }
 
     function startElection(string memory _name) public onlyAdmin {
-        require(!electionStarted, "Election already started.");
         electionName = _name;
         electionStarted = true;
         emit ElectionStarted(_name);
     }
 
     function endElection() public onlyAdmin {
-        require(electionStarted && !electionEnded, "Election not started or already ended.");
         electionEnded = true;
         emit ElectionEnded();
     }
@@ -61,7 +59,6 @@ contract Voting {
     }
 
     function registerVoter(address _voter) public onlyAdmin {
-        require(!voters[_voter].isRegistered, "Voter already registered.");
         voters[_voter].isRegistered = true;
     }
 

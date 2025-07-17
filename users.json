@@ -1,0 +1,16 @@
+[
+    {
+        "username": "abcd",
+        "password": "$2b$12$pS7HlpzEqr7nQC3Cq0yumOLFmY.q.U4utR.s.uII2BrI6OiLIc0Oe",
+        "role": "admin",
+        "wallet": "0x7778BAAcBCb8A718A3C431976a7664CfcAB0836d",
+        "private_key": "0x475e219ff263ac68d872e1f7e982cf9ad2db0ad9ab0f53713ef474a8be13b543"
+    },
+    {
+        "username": "ADMIN",
+        "password": "$2b$12$p3ElrtaLgTjLUZcF0xzRU.tuYghinsWfeHU9.Li/vrAQkTIpKRmDa",
+        "role": "admin",
+        "wallet": "0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8",
+        "private_key": "0x475e219ff263ac68d872e1f7e982cf9ad2db0ad9ab0f53713ef474a8be13b543"
+    }
+]
