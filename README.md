@@ -31,7 +31,7 @@ VoteChain is a secure, transparent, and blockchain-powered voting system built w
 
 ## 🏗️ Folder Structure
 
-```bash
+
 decentralized_voting_app/
 ├── app/
 │   ├── app.py                   # Streamlit frontend
